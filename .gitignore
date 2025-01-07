@@ -20,6 +20,7 @@ wheels/
 .installed.cfg
 *.egg
 .history
+
 # Virtual Environment
 venv/
 env/
@@ -58,6 +59,11 @@ desktop.ini
 *.gif
 *.bmp
 *.ico
+# 允许文档图片
+!docs/images/*.png
+!docs/images/*.jpg
+!docs/images/*.jpeg
+!docs/images/*.gif
 
 # Qt specific
 *.qmlc
