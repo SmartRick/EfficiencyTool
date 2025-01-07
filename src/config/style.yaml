@@ -91,7 +91,8 @@ global:
     - 2
   spacing: 16
 screensaver:
-  break_duration: 1
+  allow_close: false
+  break_duration: 5
   default_break_time: 5
   default_work_time: 25
   focus_check_interval: 500
@@ -100,12 +101,12 @@ screensaver:
   media:
     path: assets/default_wallpaper.jpg
     type: image
-  media_path: H:/相机拍摄/2024.2.4/DSCF3869.MP4
-  media_type: video
+  media_path: G:/图片管理/图片管理.library/images/M1BQMG7MIIJO7.info/wallhaven-636420.jpg
+  media_type: image
   preview_duration: 5000
   video_start_delay: 100
   warning_time: 5
-  work_duration: 1
+  work_duration: 30
 templates:
   control_panel: "QWidget#controlPanel {\n    background: transparent;\n}\nQLabel\
     \ {\n    color: %(text_color)s;\n    font-size: %(font_size)spx;\n}\nQGroupBox\

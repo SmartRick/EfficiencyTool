@@ -24,6 +24,9 @@ class ScreenSaver(QWidget):
         self.config = Config()
         self.preview_mode = False
         
+        # 读取是否允许关闭的配置
+        self.allow_close = self.config.get('screensaver.allow_close', False)
+        
         # 添加预览定时器
         self.preview_timer = QTimer(self)
         self.preview_timer.setSingleShot(True)  # 设置为单次触发
@@ -250,8 +253,12 @@ class ScreenSaver(QWidget):
     
     def close_screensaver(self):
         """通过快捷键关闭"""
+        # 检查是否允许关闭
+        if not self.allow_close and not self.preview_mode:
+            return  # 如果不允许关闭且不是预览模式,直接返回
+        
         self.closing_by_hotkey = True
-        self.can_close = True  # 设置可以关闭
+        self.can_close = True
         self.close()
     
     def closeEvent(self, event):
@@ -264,7 +271,8 @@ class ScreenSaver(QWidget):
             self.video_playing = False
             self.player.stop()
             
-        if self.preview_mode or (hasattr(self, 'closing_by_hotkey') and self.closing_by_hotkey):
+        # 检查是否允许关闭
+        if self.preview_mode or (self.allow_close and hasattr(self, 'closing_by_hotkey') and self.closing_by_hotkey):
             if hasattr(self, 'keep_top_timer'):
                 self.keep_top_timer.stop()
             event.accept()

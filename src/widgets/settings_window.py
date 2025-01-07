@@ -1,13 +1,15 @@
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
     QPushButton, QColorDialog, QSpinBox, QGroupBox,
-    QSlider, QComboBox
+    QSlider, QComboBox, QTabWidget
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QFont, QFontDatabase
 from utils.config import Config
 from utils.style import StyleManager
 import qtawesome as qta
+import os
+from widgets.markdown_viewer import MarkdownViewer
 
 class ColorButton(QPushButton):
     """颜色选择按钮"""
@@ -39,7 +41,7 @@ class SettingsWindow(QWidget):
         self.style_manager = StyleManager()
         
         self.setWindowTitle("设置")
-        self.setFixedSize(440, 360)
+        self.setMinimumSize(600, 500)  # 增加窗口大小
         self.setWindowFlags(Qt.Window | Qt.WindowCloseButtonHint)
         
         self.init_ui()
@@ -50,6 +52,119 @@ class SettingsWindow(QWidget):
         layout.setSpacing(20)
         layout.setContentsMargins(20, 20, 20, 20)
         
+        # 创建标签页
+        tab_widget = QTabWidget()
+        tab_widget.setStyleSheet("""
+            QTabWidget::pane {
+                border: 1px solid #E5E5E5;
+                border-radius: 6px;
+                background: white;
+            }
+            QTabBar::tab {
+                background: #F5F5F7;
+                border: 1px solid #E5E5E5;
+                border-bottom: none;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                padding: 8px 16px;
+                margin-right: 4px;
+            }
+            QTabBar::tab:selected {
+                background: white;
+                border-bottom: 1px solid white;
+            }
+        """)
+        
+        # 添加设置标签页
+        settings_tab = QWidget()
+        settings_layout = QVBoxLayout(settings_tab)
+        settings_layout.setContentsMargins(16, 16, 16, 16)
+        
+        # 将原有的设置内容移动到设置标签页
+        countdown_group = self.create_countdown_group()
+        settings_layout.addWidget(countdown_group)
+        settings_layout.addStretch()
+        
+        # 添加关于标签页
+        about_tab = QWidget()
+        about_layout = QVBoxLayout(about_tab)
+        about_layout.setContentsMargins(16, 16, 16, 16)
+        
+        # 创建 Markdown 查看器
+        self.markdown_viewer = MarkdownViewer()
+        about_layout.addWidget(self.markdown_viewer)
+        
+        # 加载 README.md 内容
+        try:
+            # 尝试多个可能的路径
+            possible_paths = [
+                os.path.join(os.path.dirname(os.path.dirname(__file__)), 'README.md'),  # src 目录上层
+                os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'README.md'),  # 项目根目录
+                'README.md'  # 当前目录
+            ]
+            
+            # 尝试不同的编码
+            encodings = ['utf-8', 'gbk', 'gb2312', 'utf-16', 'ascii']
+            readme_content = None
+            
+            for path in possible_paths:
+                if os.path.exists(path):
+                    for encoding in encodings:
+                        try:
+                            with open(path, 'r', encoding=encoding) as f:
+                                readme_content = f.read()
+                            break
+                        except UnicodeDecodeError:
+                            continue
+                    if readme_content:
+                        break
+            
+            if readme_content:
+                self.markdown_viewer.set_markdown(readme_content)
+            else:
+                self.markdown_viewer.set_markdown("""# 休息提醒
+
+这是一个帮助您保持健康工作节奏的小工具。
+
+## 主要功能
+
+- 自定义工作和休息时间
+- 支持图片和视频屏保
+- 友好的提醒方式
+- 多屏幕支持
+
+详细说明文件未找到。请访问项目主页了解更多信息。
+""")
+        except Exception as e:
+            self.markdown_viewer.set_markdown(f"# 错误\n\n加载项目说明失败：{str(e)}")
+        
+        # 添加标签页
+        tab_widget.addTab(settings_tab, "设置")
+        tab_widget.addTab(about_tab, "关于")
+        
+        # 按钮区域
+        button_layout = QHBoxLayout()
+        save_button = QPushButton("保存")
+        save_button.setFixedWidth(80)
+        save_button.clicked.connect(self.save_settings)
+        
+        cancel_button = QPushButton("取消")
+        cancel_button.setFixedWidth(80)
+        cancel_button.clicked.connect(self.close)
+        
+        button_layout.addStretch()
+        button_layout.addWidget(save_button)
+        button_layout.addWidget(cancel_button)
+        
+        # 添加到主布局
+        layout.addWidget(tab_widget)
+        layout.addLayout(button_layout)
+        
+        # 设置样式
+        self.setStyleSheet(self._get_style())
+    
+    def create_countdown_group(self):
+        """创建倒计时设置组"""
         # 倒计时样式设置组
         countdown_group = QGroupBox("倒计时样式")
         countdown_layout = QVBoxLayout(countdown_group)
@@ -152,27 +267,11 @@ class SettingsWindow(QWidget):
         countdown_layout.addLayout(color_layout)
         countdown_layout.addLayout(opacity_layout)
         
-        # 按钮区域
-        button_layout = QHBoxLayout()
-        save_button = QPushButton("保存")
-        save_button.setFixedWidth(80)
-        save_button.clicked.connect(self.save_settings)
-        
-        cancel_button = QPushButton("取消")
-        cancel_button.setFixedWidth(80)
-        cancel_button.clicked.connect(self.close)
-        
-        button_layout.addStretch()
-        button_layout.addWidget(save_button)
-        button_layout.addWidget(cancel_button)
-        
-        # 添加到主布局
-        layout.addWidget(countdown_group)
-        layout.addStretch()
-        layout.addLayout(button_layout)
-        
-        # 设置样式
-        self.setStyleSheet("""
+        return countdown_group
+    
+    def _get_style(self):
+        """获取样式表"""
+        return """
             QWidget {
                 font-family: "SF Pro Display", -apple-system, "Microsoft YaHei";
             }
@@ -254,7 +353,7 @@ class SettingsWindow(QWidget):
                 background: white;
                 selection-background-color: #F0F9FF;
             }
-        """)
+        """
     
     def load_settings(self):
         """加载当前设置"""

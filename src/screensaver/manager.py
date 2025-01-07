@@ -66,6 +66,9 @@ class ScreenSaverManager(QObject):
         """结束休息"""
         self.break_timer.stop()
         if self.screen_saver:
+            # 强制允许关闭
+            self.screen_saver.allow_close = True
+            self.screen_saver.closing_by_hotkey = True
             self.screen_saver.close()
             
         self.work_timer.start()

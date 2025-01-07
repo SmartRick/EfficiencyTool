@@ -339,17 +339,31 @@ class ControlPanel(QWidget):
     
     def stop_timer(self):
         """停止计时"""
+        # 停止所有计时器
         if hasattr(self, 'work_timer'):
             self.work_timer.stop()
+        if hasattr(self, 'break_timer'):
+            self.break_timer.stop()
+        
+        # 关闭所有窗口
         if hasattr(self, 'countdown_window'):
             self.countdown_window.close()
+        if hasattr(self, 'break_countdown'):
+            self.break_countdown.close()
+        if hasattr(self, 'screen_saver'):
+            self.screen_saver.closing_by_hotkey = True
+            self.screen_saver.close()
+        
+        # 重置按钮状态
         self.start_button.setText("开始专注")
         self.start_button.setIcon(qta.icon('fa5s.play-circle', color='white'))
     
     def start_break(self):
         """开始休息"""
-        # 停止工作计时器
+        # 停止工作计时器和倒计时窗口
         self.work_timer.stop()
+        if hasattr(self, 'countdown_window'):
+            self.countdown_window.close()
         
         # 创建并显示屏保
         self.screen_saver = ScreenSaver()
@@ -357,6 +371,11 @@ class ControlPanel(QWidget):
         
         # 设置主窗口不可关闭
         self.window().can_close = False
+        
+        # 创建并显示休息倒计时窗口
+        self.break_countdown = CountdownWindow(self.break_time)
+        self.break_countdown.setWindowTitle("休息时间")
+        self.break_countdown.show()
         
         # 设置休息计时器
         self.break_timer = QTimer(self)
@@ -368,13 +387,19 @@ class ControlPanel(QWidget):
     
     def end_break(self):
         """结束休息"""
-        # 停止休息计时器
+        # 停止休息计时器和关闭休息倒计时窗口
         self.break_timer.stop()
+        if hasattr(self, 'break_countdown'):
+            self.break_countdown.close()
         
         # 关闭屏保
         if hasattr(self, 'screen_saver'):
             self.screen_saver.closing_by_hotkey = True
             self.screen_saver.close()
+        
+        # 创建新的工作倒计时窗口
+        self.countdown_window = CountdownWindow(self.work_time)
+        self.countdown_window.show()
         
         # 重新开始工作计时器
         self.work_timer.start()

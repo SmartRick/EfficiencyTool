@@ -13,4 +13,5 @@ screensaver:
   warning_time: 5      # 提前警告时间(秒)
   media_type: "image"  # image/video
   media_path: "assets/default_screensaver.jpg"
-  hotkey: "ctrl+123"   # 安全解锁快捷键 
+  hotkey: "ctrl+123"   # 安全解锁快捷键
+  allow_close: false   # 是否允许手动关闭屏保 
