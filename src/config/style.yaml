@@ -1,0 +1,135 @@
+appearance:
+  accent_color: '#0066cc'
+  animation_duration: 250
+components:
+  action_button:
+    background: '#007AFF'
+    font_size: 14
+    height: 36
+    hover_background: '#0062CC'
+    min_width: 200
+    padding:
+    - 8
+    - 16
+    pressed_background: '#005AB5'
+  control_panel:
+    border_color: '#E5E5E5'
+    group:
+      padding:
+      - 16
+      - 20
+      - 16
+      - 20
+      spacing: 12
+    label:
+      icon:
+        color: '#666666'
+        size: 16
+      spacing: 8
+    padding: 20
+    spacing: 16
+    text_color: '#333333'
+  main_window:
+    background: rgba(255, 255, 255, 0.95)
+    border_radius: 8
+    shadow:
+      blur_radius: 20
+      color: rgba(0, 0, 0, 0.1)
+      offset:
+      - 0
+      - 4
+  time_button:
+    background: '#F5F5F7'
+    border_color: '#E5E5E5'
+    font_size: 13
+    height: 32
+    min_width: 80
+    padding:
+    - 6
+    - 12
+    text_color: '#333333'
+  title_bar:
+    background: rgba(255, 255, 255, 0.8)
+    buttons:
+      close:
+        color: '#FF5F57'
+        hover_color: '#FF5F57'
+      maximize:
+        color: '#28C840'
+        hover_color: '#28C840'
+      minimize:
+        color: '#FEBC2E'
+        hover_color: '#FEBC2E'
+      spacing: 8
+    font_size: 13
+    height: 38
+    text_color: '#333333'
+countdown:
+  color: '#ffffffff'
+  font_family: 仿宋
+  font_size: 33
+  opacity: 0.87
+global:
+  border_radius: 8
+  colors:
+    background: '#FFFFFF'
+    border: '#E5E5E5'
+    button:
+      primary: '#007AFF'
+      secondary: '#F5F5F7'
+    primary: '#007AFF'
+    secondary_text: '#666666'
+    text: '#333333'
+  font_family: SF Pro Display, -apple-system, Microsoft YaHei
+  font_size: 13
+  padding: 20
+  shadow:
+    blur_radius: 16
+    color: rgba(0, 0, 0, 0.08)
+    offset:
+    - 0
+    - 2
+  spacing: 16
+screensaver:
+  break_duration: 1
+  default_break_time: 5
+  default_work_time: 25
+  focus_check_interval: 500
+  hotkey: Ctrl+0
+  image_scale_threshold: 2
+  media:
+    path: assets/default_wallpaper.jpg
+    type: image
+  media_path: H:/相机拍摄/2024.2.4/DSCF3869.MP4
+  media_type: video
+  video_start_delay: 100
+  warning_time: 5
+  work_duration: 1
+  preview_duration: 5000
+templates:
+  control_panel: "QWidget#controlPanel {\n    background: transparent;\n}\nQLabel\
+    \ {\n    color: %(text_color)s;\n    font-size: %(font_size)spx;\n}\nQGroupBox\
+    \ {\n    font-weight: 500;\n    border: 1px solid %(border_color)s;\n    border-radius:\
+    \ 6px;\n    margin-top: 12px;\n    padding-top: 12px;\n    background: white;\n\
+    }\nQGroupBox::title {\n    color: %(text_color)s;\n    padding: 0 8px;\n    background:\
+    \ white;\n}\nQRadioButton {\n    color: %(text_color)s;\n    font-size: %(font_size)spx;\n\
+    \    padding: 4px 0;\n    spacing: 6px;\n}\nQRadioButton::indicator {\n    width:\
+    \ 16px;\n    height: 16px;\n    border-radius: 8px;\n    border: 1.5px solid #D1D1D6;\n\
+    \    background-color: white;\n}\nQRadioButton::indicator:hover {\n    border-color:\
+    \ #007AFF;\n}\nQRadioButton::indicator:checked {\n    border: 4px solid #007AFF;\n\
+    \    background-color: white;\n}\nQRadioButton::indicator:checked:hover {\n  \
+    \  border-color: #0062CC;\n}\n"
+  main_window: "QMainWindow {\n    background: transparent;\n}\nQWidget#windowContent\
+    \ {\n    background: %(background)s;\n    border: none;\n    border-radius: %(border_radius)spx;\n\
+    }\n"
+  time_button: "QPushButton {\n    background: %(background)s;\n    border: 1px solid\
+    \ %(border_color)s;\n    border-radius: 6px;\n    color: %(text_color)s;\n   \
+    \ font-size: %(font_size)spx;\n    padding: 6px 12px;\n}\nQPushButton:hover {\n\
+    \    background: #F5F5F7;\n}\nQPushButton:pressed {\n    background: #EAEAEB;\n\
+    }\n"
+  title_bar: "QWidget#titleBar {\n    background: rgba(255, 255, 255, 0.8);\n    border-top-left-radius:\
+    \ %(border_radius)spx;\n    border-top-right-radius: %(border_radius)spx;\n}\n"
+window:
+  height: 600
+  theme: light
+  width: 800

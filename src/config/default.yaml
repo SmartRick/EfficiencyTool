@@ -1,0 +1,16 @@
+window:
+  width: 800
+  height: 600
+  theme: "light"
+  
+appearance:
+  accent_color: "#0066cc"
+  animation_duration: 250
+
+screensaver:
+  work_duration: 25    # 工作时间(分钟)
+  break_duration: 5    # 休息时间(分钟)
+  warning_time: 5      # 提前警告时间(秒)
+  media_type: "image"  # image/video
+  media_path: "assets/default_screensaver.jpg"
+  hotkey: "ctrl+123"   # 安全解锁快捷键 

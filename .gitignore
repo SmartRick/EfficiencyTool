@@ -1,0 +1,87 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.history
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.vs/
+*.sublime-workspace
+*.sublime-project
+
+# Project specific
+assets/default_wallpaper.jpg
+config/*.yaml
+!config/style.yaml
+logs/
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Media files
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.wmv
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.ico
+
+# Qt specific
+*.qmlc
+*.jsc
+*.qm
+*.ts
+
+# Temp files
+*.tmp
+*.bak
+*~
+
+# Database
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover 
